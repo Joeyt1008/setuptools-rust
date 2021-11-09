@@ -163,6 +163,7 @@ jobs:
           echo 'curl -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain stable
           source ~/.cargo/env
           rustup target add ${{ matrix.platform.target }}
+          uname -m
           cd examples/rust_with_cffi/
           python3.6 -m pip install crossenv
           python3.6 -m crossenv "/opt/python/cp36-cp36m/bin/python3" --cc $TARGET_CC --cxx $TARGET_CXX --sysroot $TARGET_SYSROOT --env LIBRARY_PATH= --manylinux manylinux1 venv
