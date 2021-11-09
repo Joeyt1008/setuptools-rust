@@ -92,6 +92,8 @@ jobs:
           cd -
           python -c "from namespace_package import rust; assert rust.rust_func() == 14"
           python -c "from namespace_package import python; assert python.python_func() == 15"
+          pytest
+          
       - name: Test sdist vendor Rust crates
         shell: bash
         run: |
@@ -149,6 +151,8 @@ jobs:
           pip install rust_with_cffi/dist/rust_with_cffi*.whl
           python -c "from rust_with_cffi import rust; assert rust.rust_func() == 14"
           python -c "from rust_with_cffi.cffi import lib; assert lib.cffi_func() == 15"
+          pytest
+          
   test-cross-compile:
     runs-on: ubuntu-latest
     strategy:
@@ -176,6 +180,8 @@ jobs:
           ls -la dist/
           ' > build-wheels.sh
           docker run --rm -v "$PWD":/io -w /io messense/manylinux2014-cross:${{ matrix.platform.arch }} bash build-wheels.sh
+          pytest
+          
       - name: Install abi3 wheel and run tests
         uses: uraimo/run-on-arch-action@v2.0.5
         with:
@@ -192,3 +198,4 @@ jobs:
             pip3 install rust_with_cffi/dist/rust_with_cffi*.whl
             python3 -c "from rust_with_cffi import rust; assert rust.rust_func() == 14"
             python3 -c "from rust_with_cffi.cffi import lib; assert lib.cffi_func() == 15"
+            pytest
